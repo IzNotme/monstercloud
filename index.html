@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MonsterCloud | Invite & Win</title>
+    
+    <!-- Google Fonts for Gaming Look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #00ff88; /* Minecraft Green */
+            --secondary: #00d2ff; /* Cyan */
+            --bg-dark: #0a0a0f;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --font-head: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Smooth scrolling is enabled globally here */
+            scroll-behavior: smooth; 
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- ANIMATED BACKGROUND --- */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 15% 50%, rgba(0, 255, 136, 0.08), transparent 25%),
+                        radial-gradient(circle at 85% 30%, rgba(0, 210, 255, 0.08), transparent 25%);
+            animation: pulseBg 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseBg {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-family: var(--font-head);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            font-family: var(--font-head);
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), #00cc6a);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.6);
+        }
+
+        .btn-discord {
+            background: #5865F2;
+            color: white;
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.4);
+        }
+
+        .btn-discord:hover {
+            background: #4752c4;
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(88, 101, 242, 0.6);
+        }
+
+        /* --- GLASSMORPHISM CARD --- */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- HERO SECTION --- */
+        #home {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-head);
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .hero-content h1 span {
+            color: var(--primary);
+            display: block;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- SECTIONS GENERAL --- */
+        section {
+            padding: 6rem 0;
+        }
+
+        /* --- ABOUT --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-box h3 {
+            font-family: var(--font-head);
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        /* --- REWARDS --- */
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .reward-card {
+            text-align: center;
+        }
+
+        .reward-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .reward-card h3 {
+            font-family: var(--font-head);
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-card .req {
+            color: var(--secondary);
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 0;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .social-links {
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 15, 0.95);
+                padding: 2rem;
+                text-align: center;
+            }
+
+            .nav-links.active { display: flex; }
+            .mobile-menu-btn { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animated Background -->
+    <div class="bg-animation"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#home" class="logo">MONSTER<span>CLOUD</span></a>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+                <li><a href="#about" onclick="toggleMenu()">About</a></li>
+                <li><a href="#rewards" onclick="toggleMenu()">Rewards</a></li>
+                <li><a href="https://discord.gg/2rJNmuZGfZ" target="_blank" class="btn btn-discord" style="padding: 8px 16px; font-size: 0.8rem;">Join Discord</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home">
+        <div class="container hero-content">
+            <h1>INVITE. EARN. <span>WIN MINECRAFT ACCOUNTS.</span></h1>
+            <p>The premier invite reward system. Build your network, climb the ranks, and unlock premium accounts and exclusive perks.</p>
+            <a href="https://discord.gg/2rJNmuZGfZ" target="_blank" class="btn btn-primary">
+                <i class="fab fa-discord"></i> Join Discord Server
+            </a>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About The System</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>Welcome to MonsterCloud. We are a community dedicated to rewarding active members who help grow our ecosystem. Unlike traditional servers, we focus on a transparent, automated invite system.</p>
+                    <p>By inviting new players to our Discord and server, you accumulate points. These points are directly convertible into high-value Minecraft accounts, skins, and in-game currency.</p>
+                    <p>We believe in fair play and instant rewards. No hidden fees, no scams—just pure gaming rewards.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="glass-card stat-box">
+                        <h3>500+</h3>
+                        <p>Accounts Distributed</p>
+                    </div>
+                    <div class="glass-card stat-box">
+                        <h3>24/7</h3>
+                        <p>Automated System</p>
+                    </div>
+                    <div class="glass-card stat-box">
+                        <h3>100%</h3>
+                        <p>Secure & Safe</p>
+                    </div>
+                    <div class="glass-card stat-box">
+                        <h3>5k+</h3>
+                        <p>Active Members</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rewards Section -->
+    <section id="rewards">
+        <div class="container">
+            <h2 class="section-title">Invite Milestones</h2>
+            <div class="rewards-grid">
+                <!-- Tier 1 -->
+                <div class="glass-card reward-card">
+                    <i class="fas fa-user-friends reward-icon"></i>
+                    <h3>Starter Pack</h3>
+                    <span class="req">5 Invites</span>
+                    <p>Unlock a custom skin pack and 500 in-game coins.</p>
+                </div>
+                <!-- Tier 2 -->
+                <div class="glass-card reward-card">
+                    <i class="fas fa-crown reward-icon"></i>
+                    <h3>Elite Pack</h3>
+                    <span class="req">15 Invites</span>
+                    <p>Get a premium Minecraft account and exclusive rank.</p>
+                </div>
+                <!-- Tier 3 -->
+                <div class="glass-card reward-card">
+                    <i class="fas fa-gem reward-icon"></i>
+                    <h3>Diamond Pack</h3>
+                    <span class="req">30 Invites</span>
+                    <p>Full access account with rare skins and 5000 coins.</p>
+                </div>
+                <!-- Tier 4 -->
+                <div class="glass-card reward-card">
+                    <i class="fas fa-trophy reward-icon"></i>
+                    <h3>Legend Pack</h3>
+                    <span class="req">50 Invites</span>
+                    <p>Multiple premium accounts, legendary skins, and VIP status.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://discord.gg/2rJNmuZGfZ" target="_blank"><i class="fab fa-discord"></i></a>
+            </div>
+            <p class="copyright">&copy; 2024 MonsterCloud. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
